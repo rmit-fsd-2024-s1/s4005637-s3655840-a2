@@ -1,12 +1,12 @@
-module.exports = (db, DataTypes) =>
-  db.sequelize.define("comment", {
-    id: {
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define("post", {
+    post_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    content: {
-      type: DataTypes.STRING,
+    text: {
+      type: DataTypes.TEXT,
       allowNull: false
     }
   }, {
