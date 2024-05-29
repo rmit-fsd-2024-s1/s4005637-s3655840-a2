@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { getCart } from '../data/repository';
+
+const imageMap = {
+    "fishmax.jpg": require('../images/fishmaxImage.jpg'),
+    "fishplus.jpg": require('../images/fishplusImage.jpg'),
+    "fishemulsion.jpg": require('../images/fishemulsion.jpg'),
+    "folup.jpg": require('../images/folupImage.jpg'),
+    "fulvic.jpg": require('../images/fulvicImg.jpg'),
+    "soil.jpg": require('../images/soilImg.jpg')
+  };
 
 const Confirm = () => {
     const [cartItems, setCartItems] = useState([]); // To store the cart information
     
     useEffect(() => { // Retrieve the cart from localStorage
-        const cartData = localStorage.getItem('cart');
-        if (cartData) {
-            setCartItems(JSON.parse(cartData));
-        }
-
-        localStorage.removeItem('cart');
+        loadCart();
     }, []);
+
+    const loadCart = async () => {
+        const currentCart = await getCart();
+        setCartItems(currentCart);
+    }
 
     const calculateTotalPrice = () => { // Calculate the total price of items in the cart
         return cartItems.reduce((total, item) => total + item.price, 0) / 100;
@@ -33,7 +43,7 @@ const Confirm = () => {
                             {cartItems.map((item, index) => (
                                 <tr key={index} className="cart-item">
                                     <td>
-                                        <img src={item.image} alt={item.title} />
+                                        <img src={imageMap[item.image]} alt={item.title} />
                                     </td>
                                     <td>
                                         <h2>{item.title}</h2>

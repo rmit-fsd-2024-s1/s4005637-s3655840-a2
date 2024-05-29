@@ -26,6 +26,14 @@ graphql.schema = buildSchema(`
     image: String
   }
 
+  type Cart {
+    title: String,
+    description: String,
+    price: Int,
+    objectID: Int,
+    image: String
+  }
+
   # The input type can be used for incoming data.
   input OwnerInput {
     email: String,
@@ -33,10 +41,19 @@ graphql.schema = buildSchema(`
     last_name: String
   }
 
+  input CartInput {
+    title: String,
+    description: String,
+    price: Int,
+    objectID: Int,
+    image: String
+  }
+
   # Queries (read-only operations).
   type Query {
     all_owners: [Owner],
     all_specials: [Special],
+    all_cart: [Cart],
     owner(email: String): Owner,
     owner_exists(email: String): Boolean
   }
@@ -45,7 +62,9 @@ graphql.schema = buildSchema(`
   type Mutation {
     create_owner(input: OwnerInput): Owner,
     update_owner(input: OwnerInput): Owner,
-    delete_owner(email: String): Boolean
+    delete_owner(email: String): Boolean,
+    update_cart(input: CartInput): Cart,
+    delete_item(objectID: Int): Boolean
   }
 `);
 
@@ -57,6 +76,9 @@ graphql.root = {
   },
   all_specials: async () => {
     return await db.special.findAll();
+  },
+  all_cart: async () => {
+    return await db.cart.findAll();
   },
   owner: async (args) => {
     return await db.owner.findByPk(args.email);
@@ -94,7 +116,23 @@ graphql.root = {
     await owner.destroy();
 
     return true;
+  },
+  update_cart: async (args) => {
+    const cart = await db.cart.create(args.input);
+
+    return cart;
+  },
+  delete_item: async (args) => {
+    const cart = await db.cart.findOne({ where: { objectID: args.objectID } });
+    
+    if (!cart) {
+      return false;
+    }
+  
+    await cart.destroy();
+    return true;
   }
+  
 };
 
 module.exports = graphql;

@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCart, deleteItem } from '../data/repository';
+
+const imageMap = {
+    "fishmax.jpg": require('../images/fishmaxImage.jpg'),
+    "fishplus.jpg": require('../images/fishplusImage.jpg'),
+    "fishemulsion.jpg": require('../images/fishemulsion.jpg'),
+    "folup.jpg": require('../images/folupImage.jpg'),
+    "fulvic.jpg": require('../images/fulvicImg.jpg'),
+    "soil.jpg": require('../images/soilImg.jpg')
+  };
 
 const Cart = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null); // Error messages for data validation
     const [cartItems, setCartItems] = useState([]); // To store the cart information
     const [cardInfo, setCardInfo] = useState({ // To store the card information
@@ -13,23 +24,25 @@ const Cart = () => {
 
     const navigate = useNavigate(); // Initialize navigate
     
-    useEffect(() => { // Retrieve the cart from localStorage
-        const cartData = localStorage.getItem('cart');
-        if (cartData) {
-            setCartItems(JSON.parse(cartData));
-        }
-    }, []);
+    useEffect(() => {
+        loadCart();
+      }, []);
+
+    async function loadCart() {
+        const currentCart = await getCart();
+  
+        setCartItems(currentCart);
+        setIsLoading(false);
+    };  
 
     const calculateTotalPrice = () => { // Calculate the total price of items in the cart
         return cartItems.reduce((total, item) => total + item.price, 0) / 100;
     };
 
-    const removeItem = (index) => { // Remove items from the cart
-        const updatedCartItems = [...cartItems];
-        updatedCartItems.splice(index, 1);
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cart', JSON.stringify(updatedCartItems));
-    };
+    const removeItem = async (objectID) => {
+        await deleteItem(objectID);
+        await loadCart();
+      };
 
     const handleCardInputChange = (event) => { // Handle input change in the card detail boxes
         const { name, value } = event.target;
@@ -85,7 +98,7 @@ const Cart = () => {
                             {cartItems.map((item, index) => (
                                 <tr key={index} className="cart-item">
                                     <td>
-                                        <img src={item.image} alt={item.title} /> {/* table listing each item stored in the cart */}
+                                    <img src={imageMap[item.image]} alt={item.title} /> {/* table listing each item stored in the cart */}
                                     </td>
                                     <td>
                                         <h2>{item.title}</h2>
@@ -93,7 +106,7 @@ const Cart = () => {
                                     </td>
                                     <td>${item.price / 100}</td>
                                     <td>
-                                        <button onClick={() => removeItem(index)}>Remove</button>
+                                        <button onClick={() => removeItem(item.objectID)}>Remove</button>
                                     </td>
                                 </tr>
                             ))}

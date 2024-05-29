@@ -11,25 +11,29 @@ const imageMap = {
 };
 
 const Specials = () => {
-  const [specials, setSpecials] = useState([]);
+  const [specials, setSpecials] = useState([]); // set the list of specials
+  const [isLoading, setIsLoading] = useState(true);
 
 
-  // Load specials.
+  // Load specials
   useEffect(() => {
+    async function loadSpecials() {
+      const currentSpecials = await getSpecials();
+
+      setSpecials(currentSpecials);
+      setIsLoading(false);
+    }
+
     loadSpecials();
   }, []);
 
-  const loadSpecials = async () => {
-    const currentSpecials = await getSpecials();
-    setSpecials(currentSpecials);
-  };
-
-  const handleAddToCart = (special) => {
-    updateCart(special)
+  const handleAddToCart = async (special) => {
+    await updateCart(special);
+    
     // Provide feedback to the user that the item has been added to the cart
     alert(`Added ${special.title} to the cart!`);
   };
-
+  
   return (
     <div className="containerS">
       <h1>Specials for the week!</h1>

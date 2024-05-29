@@ -1,6 +1,8 @@
 import { request, gql } from "graphql-request";
+import axios from "axios";
 
 const GRAPH_QL_URL = "http://localhost:4000/graphql";
+const API_HOST = "http://localhost:4000";
 const USERS_KEY = "users";
 const USER_KEY = "user";
 const LOGIN_STATE = "login";
@@ -41,16 +43,6 @@ function initCart() { // initialise cart
   localStorage.setItem(CART, JSON.stringify(cart)); // store cart in localStorage
 }
 
-function updateCart(item) {
-  // Retrieve the current cart from localStorage
-  const cart = JSON.parse(localStorage.getItem(CART)) || [];
-
-  // Add the item to the cart
-  cart.push(item);
-
-  // Update the cart in localStorage
-  localStorage.setItem(CART, JSON.stringify(cart));
-}
 function getUsers() { // Get user information from localStorage
 
   const data = localStorage.getItem(USERS_KEY);
@@ -134,10 +126,16 @@ function getUsername(email) { // find user name using specific email from that e
 }
 
 async function getSpecials() {
+  const response = await axios.get(API_HOST + "/api/specials");
+
+  return response.data;
+}
+
+async function getCart() {
   // Simply query with no parameters.
   const query = gql`
    {
-    all_specials {
+    all_cart {
       title
       description
       price
@@ -149,8 +147,31 @@ async function getSpecials() {
 
   const data = await request(GRAPH_QL_URL, query);
 
-  return data.all_specials;
+  return data.all_cart;
 }
+
+async function updateCart(item) {
+  const response = await axios.post(API_HOST + "/api/carts", item);
+
+  return response.data;
+}
+
+async function deleteItem(objectID) {
+  const query = gql`
+    mutation ($objectID: Int) {
+      delete_item(objectID: $objectID)
+    }
+  `;
+
+  const variables = { objectID };
+
+  const data = await request(GRAPH_QL_URL, query, variables);
+
+  return data.delete_item;
+}
+
+
+
 
 export { // export all the needed functions
   initUsers,
@@ -164,5 +185,7 @@ export { // export all the needed functions
   getLogin,
   updateUser,
   getUsername,
-  getSpecials
+  getSpecials,
+  getCart,
+  deleteItem
 }
