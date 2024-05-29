@@ -1,8 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { graphqlHTTP } = require("express-graphql");
 const db = require("./src/database");
-const graphql = require("./src/graphql");
 
 // Database will be sync'ed in the background.
 db.sync();

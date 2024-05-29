@@ -132,22 +132,9 @@ async function getSpecials() {
 }
 
 async function getCart() {
-  // Simply query with no parameters.
-  const query = gql`
-   {
-    all_cart {
-      title
-      description
-      price
-      objectID
-      image
-    }
-  }
-  `;
+  const response = await axios.get(API_HOST + "/api/carts");
 
-  const data = await request(GRAPH_QL_URL, query);
-
-  return data.all_cart;
+  return response.data;
 }
 
 async function updateCart(item) {
@@ -157,17 +144,9 @@ async function updateCart(item) {
 }
 
 async function deleteItem(objectID) {
-  const query = gql`
-    mutation ($objectID: Int) {
-      delete_item(objectID: $objectID)
-    }
-  `;
+  const response = await axios.delete(API_HOST + "/api/carts" + objectID)
 
-  const variables = { objectID };
-
-  const data = await request(GRAPH_QL_URL, query, variables);
-
-  return data.delete_item;
+  return response.data;
 }
 
 
