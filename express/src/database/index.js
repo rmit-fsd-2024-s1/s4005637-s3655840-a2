@@ -12,13 +12,8 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 });
 
 // Include models.
-db.user = require("./models/user.js")(db.sequelize, DataTypes);
-db.post = require("./models/post.js")(db.sequelize, DataTypes);
-
-// Relate post and user.
-db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
-
-// Learn more about associations here: https://sequelize.org/master/manual/assocs.html
+db.owner = require("./models/owner.js")(db, DataTypes);
+db.special = require("./models/special.js")(db, DataTypes);
 
 // Include a sync option with seed data logic included.
 db.sync = async () => {
@@ -32,19 +27,37 @@ db.sync = async () => {
 };
 
 async function seedData() {
-  const count = await db.user.count();
+  const count = await db.special.count();
 
   // Only seed data if necessary.
   if(count > 0)
     return;
 
-  const argon2 = require("argon2");
+  // Create owners.
+  await db.owner.bulkCreate([
+    {
+      email: "matthew@rmit.edu.au", first_name: "Matthew", last_name: "Bolger", mobile: "0412 123 123",
+      street: "123 Fake Street", city: "Melbourne", state: "VIC", postcode: "3000"
+    },
+    { email: "shekhar@rmit.edu.au", first_name: "Shekhar", last_name: "Kalra" },
+    { email: "alice@rmit.edu.au", first_name: "Alice", last_name: "Evans" },
+    { email: "bob@rmit.edu.au", first_name: "Bob", last_name: "Alexander" },
+    { email: "william@rmit.edu.au", first_name: "William", last_name: "Owens" },
+    { email: "terra@rmit.edu.au", first_name: "Terra", last_name: "Rodgers" },
+    { email: "leon@rmit.edu.au", first_name: "Leon", last_name: "Boreanaz" },
+    { email: "cid@rmit.edu.au", first_name: "Cid", last_name: "Highwind" }
+  ]);
 
-  let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name : "Bolger" });
-
-  hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name : "Kalra" });
+  // Create pets.
+  await db.special.bulkCreate([
+    { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 0, image: "/static/media/fishmax.1b258676a8ebf679b1b0.jpg" },
+    { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 1, image: "fishplusImage" },
+    { title: 'Fish-Emulsion', description: 'Feeds soil microbes, improves moisture retention and nutrient availability.', price: 3099, objectID: 2, image: "fishemulsion" },
+    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 3, image: "folupImage" },
+    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 4, image: "fulvicImg" },
+    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 5, image: "soilImg" }
+  ]);
+  
 }
 
 module.exports = db;

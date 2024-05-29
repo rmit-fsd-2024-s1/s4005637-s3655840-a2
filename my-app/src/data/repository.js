@@ -1,3 +1,9 @@
+import { request, gql } from "graphql-request";
+
+// --- Constants ----------------------------------------------------------------------------------
+const GRAPH_QL_URL = "http://localhost:4000/graphql";
+
+// --- Comments -----------------------------------------------------------------------------------
 const USERS_KEY = "users";
 const USER_KEY = "user";
 const LOGIN_STATE = "login";
@@ -130,6 +136,25 @@ function getUsername(email) { // find user name using specific email from that e
   }
 }
 
+async function getSpecials() {
+  // Simply query with no parameters.
+  const query = gql`
+   {
+    all_specials {
+      title
+      description
+      price
+      objectID
+      image
+    }
+  }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+
+  return data.all_specials;
+}
+
 export { // export all the needed functions
   initUsers,
   initCart,
@@ -141,5 +166,6 @@ export { // export all the needed functions
   loginUser,
   getLogin,
   updateUser,
-  getUsername
+  getUsername,
+  getSpecials
 }
