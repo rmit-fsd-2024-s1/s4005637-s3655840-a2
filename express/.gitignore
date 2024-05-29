@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/confid.js
 /.pnp
 .pnp.js
 
