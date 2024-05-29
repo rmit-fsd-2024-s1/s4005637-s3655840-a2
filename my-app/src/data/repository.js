@@ -1,9 +1,6 @@
 import { request, gql } from "graphql-request";
 
-// --- Constants ----------------------------------------------------------------------------------
 const GRAPH_QL_URL = "http://localhost:4000/graphql";
-
-// --- Comments -----------------------------------------------------------------------------------
 const USERS_KEY = "users";
 const USER_KEY = "user";
 const LOGIN_STATE = "login";
