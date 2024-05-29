@@ -143,8 +143,8 @@ async function updateCart(item) {
   return response.data;
 }
 
-async function deleteItem(objectID) {
-  const response = await axios.delete(API_HOST + "/api/carts" + objectID)
+async function deleteItem(id) {
+  const response = await axios.delete(API_HOST + `/api/carts/select/${id}`);
 
   return response.data;
 }

@@ -39,8 +39,8 @@ const Cart = () => {
         return cartItems.reduce((total, item) => total + item.price, 0) / 100;
     };
 
-    const removeItem = async (objectID) => {
-        await deleteItem(objectID);
+    const removeItem = async (id) => {
+        await deleteItem(id);
         await loadCart();
       };
 
@@ -106,7 +106,7 @@ const Cart = () => {
                                     </td>
                                     <td>${item.price / 100}</td>
                                     <td>
-                                        <button onClick={() => removeItem(item.objectID)}>Remove</button>
+                                        <button onClick={() => removeItem(item.id)}>Remove</button>
                                     </td>
                                 </tr>
                             ))}

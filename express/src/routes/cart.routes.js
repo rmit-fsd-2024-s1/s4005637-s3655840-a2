@@ -9,7 +9,7 @@ module.exports = (express, app) => {
   router.post("/", controller.create);
 
   // Remove item from cart
-  router.delete("/:id", controller.delete);
+  router.delete("/select/:id", controller.delete);
 
   // Add routes to server.
   app.use("/api/carts", router);
