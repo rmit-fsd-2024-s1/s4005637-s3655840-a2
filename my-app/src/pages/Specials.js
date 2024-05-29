@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import fishmaxImage from '../images/fishmax.jpg';
-import fishplusImage from '../images/fishplus.jpg';
-import fishemulsion from '../images/fishemulsion.jpg';
-import folupImage from '../images/img4.jpg';
-import fulvicImg from '../images/img5.jpg';
-import soilImg from '../images/img6.jpg';
+import React, { useEffect, useState } from 'react';
 import { updateCart, getSpecials } from '../data/repository';
+
+const imageMap = {
+  "fishmax.jpg": require('../images/fishmaxImage.jpg'),
+  "fishplus.jpg": require('../images/fishplusImage.jpg'),
+  "fishemulsion.jpg": require('../images/fishemulsion.jpg'),
+  "folup.jpg": require('../images/folupImage.jpg'),
+  "fulvic.jpg": require('../images/fulvicImg.jpg'),
+  "soil.jpg": require('../images/soilImg.jpg')
+};
 
 const Specials = () => {
   const [specials, setSpecials] = useState([]);
@@ -18,7 +21,6 @@ const Specials = () => {
 
   const loadSpecials = async () => {
     const currentSpecials = await getSpecials();
-
     setSpecials(currentSpecials);
   };
 
@@ -38,13 +40,13 @@ const Specials = () => {
       </p>
       <div className="contentS">
         <ul>
-        {specials.map(function (special) {
+          {specials.map(function (special) {
             const priceFormatted = `$${(special.price / 100).toFixed(2)}`; // format the price into dollars and cents
             return (
               <li key={special.objectID}>
                 <div>
                   <h2>{special.title}</h2>
-                  <img src={special.image} alt=""></img>
+                  <img src={imageMap[special.image]} alt={special.title} />
                   <p>{special.description}</p>
                   <button className="buyButton" onClick={() => handleAddToCart(special)}>Buy</button>
                   <span className="priceTag">{priceFormatted}</span>
@@ -52,9 +54,10 @@ const Specials = () => {
               </li>
             );
           })}
-        </ul> 
+        </ul>
       </div>
-    </div> 
+    </div>
   );
-}
+};
+
 export default Specials;

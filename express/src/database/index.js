@@ -50,13 +50,13 @@ async function seedData() {
 
   // Create pets.
   await db.special.bulkCreate([
-    { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 0, image: "/static/media/fishmax.1b258676a8ebf679b1b0.jpg" },
-    { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 1, image: "fishplusImage" },
-    { title: 'Fish-Emulsion', description: 'Feeds soil microbes, improves moisture retention and nutrient availability.', price: 3099, objectID: 2, image: "fishemulsion" },
-    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 3, image: "folupImage" },
-    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 4, image: "fulvicImg" },
-    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 5, image: "soilImg" }
-  ]);
+    { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 0, image: "fishmax.jpg" },
+    { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 1, image: "fishplus.jpg" },
+    { title: 'Fish-Emulsion', description: 'Feeds soil microbes, improves moisture retention and nutrient availability.', price: 3099, objectID: 2, image: "fishemulsion.jpg" },
+    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 3, image: "folup.jpg" },
+    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 4, image: "fulvic.jpg" },
+    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 5, image: "soil.jpg" }
+  ]);  
   
 }
 
