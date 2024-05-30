@@ -15,6 +15,7 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.owner = require("./models/owner.js")(db, DataTypes);
 db.special = require("./models/special.js")(db, DataTypes);
 db.cart = require("./models/cart.js")(db, DataTypes);
+db.cart = require("./models/user.js")(db, DataTypes);
 
 // Include a sync option with seed data logic included.
 db.sync = async () => {
@@ -59,6 +60,11 @@ async function seedData() {
     { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 5, image: "soil.jpg" }
   ]);  
   
+  //create user
+  await db.user.bulkCreate([
+    { username: 'test1test', email: 'test1@email.com', password_hash: hash, }
+  ]);
+
 }
 
 module.exports = db;

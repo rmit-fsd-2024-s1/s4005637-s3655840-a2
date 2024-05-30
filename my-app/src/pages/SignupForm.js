@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser, loginUser } from "../data/repository";
+import { addUser, loginUser, createUser } from "../data/repository";
 
 function isValidEmail(email) { // check if the email is a valid email
   // Check if the email contains "@" symbol
@@ -58,7 +58,7 @@ function SignupForm(props) { // Component to allow user to create a new account
     setFields(temp);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => { //added async
     event.preventDefault();
     
     const { username, email, password} = fields;
@@ -84,6 +84,10 @@ function SignupForm(props) { // Component to allow user to create a new account
     }
     const date = new Date().toISOString().split('T')[0]; // record date of account creation
     
+    const user = await createUser(fields); //create user to DB?
+    navigate("/content");
+    loginUser(user);
+    
     addUser(username, email, password, date); // add all information to localStorage
 
     alert("Congrats! Your account: " + username + " has been created") // display confirmation message once account is created
@@ -98,7 +102,7 @@ function SignupForm(props) { // Component to allow user to create a new account
       <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-1">
-          <label htmlFor="username">Name</label>
+          <label htmlFor="username">Username</label>
           <input
             name="username"
             id="username"

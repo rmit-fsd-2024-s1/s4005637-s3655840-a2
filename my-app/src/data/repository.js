@@ -149,7 +149,10 @@ async function deleteItem(id) {
   return response.data;
 }
 
-
+async function createUser(username) {
+  const response = await axios.delete(API_HOST + "/api/users", username); //username of fields?
+  return response.data;
+}
 
 
 export { // export all the needed functions
@@ -166,5 +169,6 @@ export { // export all the needed functions
   getUsername,
   getSpecials,
   getCart,
-  deleteItem
+  deleteItem,
+  createUser,
 }
