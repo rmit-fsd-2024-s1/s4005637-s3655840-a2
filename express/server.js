@@ -18,7 +18,6 @@ require("./src/routes/user.routes.js")(express, app);
 require("./src/routes/owner.routes.js")(express, app);
 require("./src/routes/special.routes.js")(express, app);
 require("./src/routes/cart.routes.js")(express, app);
-require("./src/routes/user.routes.js")(express, app);
 
 // Add GraphQL to express server.
 // NOTE: You can use the GraphQL web-interface to test the GraphQL schema thanks to the graphiql parameter being true.
