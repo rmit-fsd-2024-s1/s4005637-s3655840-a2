@@ -29,12 +29,10 @@ db.sync = async () => {
 };
 
 async function seedData() {
-  const count = await db.special.count();
+  let count = await db.owner.count();
 
   // Only seed data if necessary.
-  if(count > 0)
-    return;
-
+  if(count == 0) {
   // Create owners.
   await db.owner.bulkCreate([
     {
@@ -49,8 +47,12 @@ async function seedData() {
     { email: "leon@rmit.edu.au", first_name: "Leon", last_name: "Boreanaz" },
     { email: "cid@rmit.edu.au", first_name: "Cid", last_name: "Highwind" }
   ]);
+}
 
-  // Create pets.
+  count = await db.special.count();
+
+  if (count == 0) {
+  // Create specials.
   await db.special.bulkCreate([
     { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 0, image: "fishmax.jpg" },
     { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 1, image: "fishplus.jpg" },
@@ -59,11 +61,16 @@ async function seedData() {
     { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 4, image: "fulvic.jpg" },
     { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 5, image: "soil.jpg" }
   ]);  
-  
+  }
+
+  count = await db.user.count();
+
+  if (count == 0) {
   //create user
   await db.user.bulkCreate([
     { username: 'test1test', email: 'test1@email.com', password_hash: hash, }
   ]);
+}
 
 }
 
