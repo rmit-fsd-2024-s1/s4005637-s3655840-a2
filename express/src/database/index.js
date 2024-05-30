@@ -15,7 +15,7 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.owner = require("./models/owner.js")(db, DataTypes);
 db.special = require("./models/special.js")(db, DataTypes);
 db.cart = require("./models/cart.js")(db, DataTypes);
-db.cart = require("./models/user.js")(db, DataTypes);
+db.user = require("./models/user.js")(db, DataTypes);
 
 // Include a sync option with seed data logic included.
 db.sync = async () => {

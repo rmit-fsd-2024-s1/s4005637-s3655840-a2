@@ -150,7 +150,7 @@ async function deleteItem(id) {
 }
 
 async function createUser(username) {
-  const response = await axios.delete(API_HOST + "/api/users", username); //username of fields?
+  const response = await axios.post(API_HOST + "/api/users", username); //username of fields?
   return response.data;
 }
 

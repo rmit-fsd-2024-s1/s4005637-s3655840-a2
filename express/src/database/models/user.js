@@ -6,7 +6,7 @@ module.exports = (db, DataTypes) =>
       },
       email: {
         type: DataTypes.STRING(254),
-        primaryKey: true
+        allowNull: false
       },
       password_hash: {
         type: DataTypes.STRING(200),
