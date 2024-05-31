@@ -12,7 +12,6 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 });
 
 // Include models.
-db.owner = require("./models/owner.js")(db, DataTypes);
 db.special = require("./models/special.js")(db, DataTypes);
 db.cart = require("./models/cart.js")(db, DataTypes);
 db.user = require("./models/user.js")(db, DataTypes);
@@ -30,27 +29,8 @@ db.sync = async () => {
 };
 
 async function seedData() {
-  let count = await db.owner.count();
-
   // Only seed data if necessary.
-  if(count == 0) {
-  // Create owners.
-  await db.owner.bulkCreate([
-    {
-      email: "matthew@rmit.edu.au", first_name: "Matthew", last_name: "Bolger", mobile: "0412 123 123",
-      street: "123 Fake Street", city: "Melbourne", state: "VIC", postcode: "3000"
-    },
-    { email: "shekhar@rmit.edu.au", first_name: "Shekhar", last_name: "Kalra" },
-    { email: "alice@rmit.edu.au", first_name: "Alice", last_name: "Evans" },
-    { email: "bob@rmit.edu.au", first_name: "Bob", last_name: "Alexander" },
-    { email: "william@rmit.edu.au", first_name: "William", last_name: "Owens" },
-    { email: "terra@rmit.edu.au", first_name: "Terra", last_name: "Rodgers" },
-    { email: "leon@rmit.edu.au", first_name: "Leon", last_name: "Boreanaz" },
-    { email: "cid@rmit.edu.au", first_name: "Cid", last_name: "Highwind" }
-  ]);
-}
-
-  count = await db.special.count();
+  let count = await db.special.count();
 
   if (count == 0) {
   // Create specials.
@@ -81,11 +61,11 @@ async function seedData() {
   if (count == 0) {
   //create user
   await db.review.bulkCreate([
-    { author: 'test1test', body: 'Very happy with product, will buy again', rating: 4, productID: 1 },
-    { author: 'test2test', body: 'Really happy with this product', rating: 5, productID: 1 },
-    { author: 'test3test', body: 'Hope to buy again', rating: 3, productID: 1 },
-    { author: 'test1test', body: 'Strong dislike this product, will not buy again', rating: 1, productID: 2 },
-    { author: 'test3test', body: "I've had better, but this was alright", rating: 2, productID: 3 },
+    { author: 'Sam', body: 'Very happy with product, will buy again', rating: 4, productID: 1 },
+    { author: 'Alice', body: 'Really happy with this product', rating: 5, productID: 1 },
+    { author: 'Denis', body: 'Hope to buy again', rating: 3, productID: 1 },
+    { author: 'Matthew', body: 'Strong dislike this product, will not buy again', rating: 1, productID: 2 },
+    { author: 'Peter', body: "I've had better, but this was alright", rating: 2, productID: 3 },
   ]);
 }
 

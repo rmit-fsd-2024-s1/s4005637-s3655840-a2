@@ -5,7 +5,7 @@ module.exports = (db, DataTypes) =>
         allowNull: false
       },
       body: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
       },
       rating: {

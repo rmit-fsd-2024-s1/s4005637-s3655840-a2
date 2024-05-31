@@ -17,8 +17,9 @@ const Reviews = () => {
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState('');
-  const [newRating, setNewRating] = useState(0);
+  const [newRating, setNewRating] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function loadProductDetails() {
@@ -40,6 +41,12 @@ const Reviews = () => {
   }, [id]);
 
   const handleAddReview = async () => {
+    const wordCount = newReview.trim().split(/\s+/).length;
+    if (wordCount > 100) {
+      setError('Review cannot be longer than 100 words.');
+      return;
+    }
+    
     if (newReview.trim() && newRating > 0) {
       const review = {
         author: JSON.parse(localStorage.getItem("login")),
@@ -52,6 +59,9 @@ const Reviews = () => {
       setReviews(updatedReviews);
       setNewReview('');
       setNewRating(0);
+      setError('');
+    } else {
+      setError('Review cannot be empty')
     }
   };
 
@@ -113,6 +123,7 @@ const Reviews = () => {
               </span>
             ))}
           </div>
+          {error && <p className="error">{error}</p>}
           <button onClick={handleAddReview}>Submit Review</button>
         </div>
       </div>

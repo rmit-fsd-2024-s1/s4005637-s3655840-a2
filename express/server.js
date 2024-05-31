@@ -15,7 +15,6 @@ app.use(cors());
 
 // Add user routes.
 require("./src/routes/user.routes.js")(express, app);
-require("./src/routes/owner.routes.js")(express, app);
 require("./src/routes/special.routes.js")(express, app);
 require("./src/routes/cart.routes.js")(express, app);
 require("./src/routes/review.routes.js")(express, app);

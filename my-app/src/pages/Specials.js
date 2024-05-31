@@ -67,6 +67,15 @@ const Specials = () => {
     }
     return stars;
   };
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading specials...</p>
+      </div>
+    );
+  }
   
   return (
     <div className="containerS">
