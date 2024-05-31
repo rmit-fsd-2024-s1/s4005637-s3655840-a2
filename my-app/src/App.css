@@ -619,3 +619,54 @@ background-image: linear-gradient(to right, #253d17dc , rgb(255, 255, 255));
   margin: 0 5px;
   line-height: 32px; 
 }
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; /* Space between stars and button */
+}
+
+.star {
+  font-size: 20px;
+  color: #ccc;
+}
+
+.star.filled {
+  color: #ffcc00;
+}
+
+.reviewButton {
+  display: block;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-top: 5px; /* Space between stars and button */
+}
+
+.reviewButton:hover {
+  background-color: #0056b3;
+}
+
+.contentS li {
+  position: relative;
+  padding-bottom: 70px; /* Adjust to fit button */
+}
+
+.contentS .product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start (left) */
+}
+
+.contentS .product-info .priceTag {
+  align-self: center; /* Center the price tag */
+}
+
+.contentS .product-info .buyButton {
+  align-self: flex-end; /* Move the buy button to the right */
+}

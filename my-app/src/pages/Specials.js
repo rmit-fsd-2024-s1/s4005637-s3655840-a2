@@ -33,6 +33,21 @@ const Specials = () => {
     // Provide feedback to the user that the item has been added to the cart
     alert(`Added ${special.title} to the cart!`);
   };
+
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <span key={i} className={i < rating ? 'star filled' : 'star'}>&#9733;</span>
+      );
+    }
+    return stars;
+  };
+
+  const handleCheckReview = (specialId) => {
+    alert(`Check reviews for special ID: ${specialId}`);
+    // Implement the logic to show the reviews
+  };
   
   return (
     <div className="containerS">
@@ -52,6 +67,9 @@ const Specials = () => {
                   <h2>{special.title}</h2>
                   <img src={imageMap[special.image]} alt={special.title} />
                   <p>{special.description}</p>
+                  <a href={`/reviews/${special.objectID}`} className="star-rating"> {/* Added anchor tag */}
+                    {renderStars(special.rating)}
+                  </a>
                   <button className="buyButton" onClick={() => handleAddToCart(special)}>Buy</button>
                   <span className="priceTag">{priceFormatted}</span>
                 </div>
