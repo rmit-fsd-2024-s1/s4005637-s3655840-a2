@@ -154,7 +154,10 @@ async function createUser(username) {
   return response.data;
 }
 
-
+async function saveUser(oldUser, newUser, email) {
+  const response = await axios.put(API_HOST + "/api/users", oldUser, newUser, email);
+  return response.data;
+}
 export { // export all the needed functions
   initUsers,
   initCart,
@@ -171,4 +174,5 @@ export { // export all the needed functions
   getCart,
   deleteItem,
   createUser,
+  saveUser,
 }
