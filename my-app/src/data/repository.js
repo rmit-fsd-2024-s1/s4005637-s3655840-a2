@@ -154,6 +154,19 @@ async function createUser(username) {
   return response.data;
 }
 
+async function getItem(id) {
+  const response = await axios.get(API_HOST + `/api/specials/select/${id}`);
+
+  return response.data;
+}
+
+async function getReviews(id) {
+  const response = await axios.get(API_HOST + `/api/reviews/select/${id}`);
+
+  return response.data;
+}
+
+
 
 export { // export all the needed functions
   initUsers,
@@ -171,4 +184,6 @@ export { // export all the needed functions
   getCart,
   deleteItem,
   createUser,
+  getItem,
+  getReviews
 }

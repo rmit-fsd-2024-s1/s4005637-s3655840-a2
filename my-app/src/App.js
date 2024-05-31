@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import Program1 from './programs/Program1';
 import Program2 from './programs/Program2';
 import Program3 from './programs/Program3'; // import all appropiate pages and functions
+import Reviews from './pages/Reviews';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="Program3" element={<Program3/>}/>
           <Route path="cart" element={<Cart/>}/>
           <Route path="confirm" element={<Confirm/>}/>
+          <Route path="reviews/:id" element={<Reviews/>}/>
 
         </Routes>
 

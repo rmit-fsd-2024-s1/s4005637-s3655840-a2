@@ -5,7 +5,7 @@ module.exports = (express, app) => {
   // Select all users.
   router.get("/", controller.all);
 
-  // Select a single user with id.
+  // Select a single special with id.
   router.get("/select/:id", controller.one);
 
   // Add routes to server.
