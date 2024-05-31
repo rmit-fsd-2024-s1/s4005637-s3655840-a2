@@ -188,10 +188,7 @@ export { // export all the needed functions
   getCart,
   deleteItem,
   createUser,
-<<<<<<< HEAD
   getItem,
-  getReviews
-=======
-  saveUser,
->>>>>>> bf4044eeed6afa1ca8865801b4816e0d328e9fd0
+  getReviews,
+  saveUser
 }
