@@ -154,7 +154,6 @@ async function createUser(username) {
   return response.data;
 }
 
-<<<<<<< HEAD
 async function getItem(id) {
   const response = await axios.get(API_HOST + `/api/specials/select/${id}`);
 
@@ -169,12 +168,10 @@ async function getReviews(id) {
 
 
 
-=======
 async function saveUser(oldUser, newUser, email) {
   const response = await axios.put(API_HOST + "/api/users", oldUser, newUser, email);
   return response.data;
 }
->>>>>>> bf4044eeed6afa1ca8865801b4816e0d328e9fd0
 export { // export all the needed functions
   initUsers,
   initCart,
