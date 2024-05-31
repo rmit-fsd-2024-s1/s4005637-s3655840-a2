@@ -153,11 +153,23 @@ async function createUser(username) {
   const response = await axios.post(API_HOST + "/api/users", username); //username of fields?
   return response.data;
 }
-
-async function saveUser(oldUser, newUser, email) {
-  const response = await axios.put(API_HOST + "/api/users", oldUser, newUser, email);
+// get profile - get user info from DB
+async function getUserProfile(username, email) {
+  const response = await axios.get(API_HOST + "/api/users", username, email);
   return response.data;
 }
+//update user info from db
+async function updateProfile(username, email) {
+  const response = await axios.put(API_HOST + "/api/users", username, email);
+  return response.data;
+}
+//delete user form DB
+async function deleteUser(username, email) {
+  const response = await axios.delete(API_HOST + "/api/users/username", username, email);
+  return response.data;
+  
+}
+
 export { // export all the needed functions
   initUsers,
   initCart,
@@ -174,5 +186,7 @@ export { // export all the needed functions
   getCart,
   deleteItem,
   createUser,
-  saveUser,
+  getUserProfile,
+  updateProfile,
+  deleteUser,
 }
