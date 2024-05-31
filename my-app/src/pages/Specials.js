@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { updateCart, getSpecials } from '../data/repository';
+import { updateCart, getSpecials, getReviews } from '../data/repository';
 
 const imageMap = {
   "fishmax.jpg": require('../images/fishmaxImage.jpg'),
@@ -13,15 +13,27 @@ const imageMap = {
 const Specials = () => {
   const [specials, setSpecials] = useState([]); // set the list of specials
   const [isLoading, setIsLoading] = useState(true);
-
+  const [ratings, setRatings] = useState({});
+  const [reviewCounts, setReviewCounts] = useState({});
 
   // Load specials
   useEffect(() => {
     async function loadSpecials() {
       const currentSpecials = await getSpecials();
-
       setSpecials(currentSpecials);
       setIsLoading(false);
+
+      // Load ratings and review counts for each special
+      const ratings = await Promise.all(currentSpecials.map(special => getRating(special.objectID)));
+      const reviewCounts = await Promise.all(currentSpecials.map(special => getReviewCount(special.objectID)));
+      const ratingsMap = {};
+      const reviewCountsMap = {};
+      currentSpecials.forEach((special, index) => {
+        ratingsMap[special.objectID] = ratings[index];
+        reviewCountsMap[special.objectID] = reviewCounts[index];
+      });
+      setRatings(ratingsMap);
+      setReviewCounts(reviewCountsMap);
     }
 
     loadSpecials();
@@ -34,6 +46,18 @@ const Specials = () => {
     alert(`Added ${special.title} to the cart!`);
   };
 
+  const getRating = async (objectID) => {
+    const productReviews = await getReviews(objectID);
+    if (productReviews.length === 0) return 0; // Avoid division by zero if there are no reviews
+    const total = productReviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / productReviews.length;
+  };
+
+  const getReviewCount = async (objectID) => {
+    const productReviews = await getReviews(objectID);
+    return productReviews.length;
+  };
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -42,11 +66,6 @@ const Specials = () => {
       );
     }
     return stars;
-  };
-
-  const handleCheckReview = (specialId) => {
-    alert(`Check reviews for special ID: ${specialId}`);
-    // Implement the logic to show the reviews
   };
   
   return (
@@ -59,17 +78,20 @@ const Specials = () => {
       </p>
       <div className="contentS">
         <ul>
-          {specials.map(function (special) {
+          {specials.map((special) => {
             const priceFormatted = `$${(special.price / 100).toFixed(2)}`; // format the price into dollars and cents
+            const rating = ratings[special.objectID] || 0;
+            const reviewCount = reviewCounts[special.objectID] || 0;
             return (
               <li key={special.objectID}>
                 <div>
                   <h2>{special.title}</h2>
                   <img src={imageMap[special.image]} alt={special.title} />
                   <p>{special.description}</p>
-                  <a href={`/reviews/${special.objectID}`} className="star-rating"> {/* Added anchor tag */}
-                    {renderStars(special.rating)}
+                  <a href={`/reviews/${special.objectID}`} className="star-rating">
+                    {renderStars(Math.round(rating))}
                   </a>
+                  <p className="review-count">{reviewCount} {reviewCount === 1 ? 'review' : 'reviews'}</p>
                   <button className="buyButton" onClick={() => handleAddToCart(special)}>Buy</button>
                   <span className="priceTag">{priceFormatted}</span>
                 </div>

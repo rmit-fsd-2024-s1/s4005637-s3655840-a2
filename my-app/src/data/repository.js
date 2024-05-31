@@ -166,12 +166,17 @@ async function getReviews(id) {
   return response.data;
 }
 
-
-
 async function saveUser(oldUser, newUser, email) {
   const response = await axios.put(API_HOST + "/api/users", oldUser, newUser, email);
   return response.data;
 }
+
+async function addReview(review) {
+  const response = await axios.post(API_HOST + "/api/reviews", review);
+
+  return response.data;
+}
+
 export { // export all the needed functions
   initUsers,
   initCart,
@@ -190,5 +195,6 @@ export { // export all the needed functions
   createUser,
   getItem,
   getReviews,
-  saveUser
+  saveUser,
+  addReview
 }

@@ -83,7 +83,9 @@ async function seedData() {
   await db.review.bulkCreate([
     { author: 'test1test', body: 'Very happy with product, will buy again', rating: 4, productID: 1 },
     { author: 'test2test', body: 'Really happy with this product', rating: 5, productID: 1 },
-    { author: 'test3test', body: 'Hope to buy again', rating: 3, productID: 1 }
+    { author: 'test3test', body: 'Hope to buy again', rating: 3, productID: 1 },
+    { author: 'test1test', body: 'Strong dislike this product, will not buy again', rating: 1, productID: 2 },
+    { author: 'test3test', body: "I've had better, but this was alright", rating: 2, productID: 3 },
   ]);
 }
 

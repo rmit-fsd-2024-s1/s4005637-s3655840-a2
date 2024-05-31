@@ -139,3 +139,21 @@
 .add-review button:hover {
     background-color: #1f4d0e;
 }
+
+/* Rating Stars */
+.rating-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+  
+.star {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+  
+.star.selected {
+    color: #ffd900;
+}

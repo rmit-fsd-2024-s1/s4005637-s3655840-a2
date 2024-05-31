@@ -17,6 +17,7 @@ const Reviews = () => {
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState('');
+  const [newRating, setNewRating] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,14 +39,25 @@ const Reviews = () => {
     loadProductDetails();
   }, [id]);
 
-  /*const handleAddReview = async () => {
-    if (newReview.trim()) {
-      await addReview(id, newReview);
-      const updatedReviews = await getProductReviews(id);
+  const handleAddReview = async () => {
+    if (newReview.trim() && newRating > 0) {
+      const review = {
+        author: JSON.parse(localStorage.getItem("login")),
+        body: newReview,
+        rating: newRating,
+        productID: product.objectID
+      };
+      await addReview(review);
+      const updatedReviews = await getReviews(product.objectID);
       setReviews(updatedReviews);
       setNewReview('');
+      setNewRating(0);
     }
-  };*/
+  };
+
+  const handleRatingChange = (rating) => {
+    setNewRating(rating);
+  };
 
   if (isLoading) {
     return (
@@ -72,9 +84,6 @@ const Reviews = () => {
         <h2>Reviews</h2>
         <ul>
         {console.log("Reviews:", reviews)}
-
-
-
           {reviews.map(function (review) {
             return (
             <li key={review.id} className="review">
@@ -86,11 +95,6 @@ const Reviews = () => {
             </li>
             );
         })}
-
-
-
-
-
         </ul>
         <div className="add-review">
           <textarea
@@ -98,7 +102,18 @@ const Reviews = () => {
             onChange={(e) => setNewReview(e.target.value)}
             placeholder="Write your review here..."
           />
-          <button onClick={{/*handleAddReview*/}}>Submit Review</button>
+          <div className="rating-container">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                className={`star ${newRating >= star ? 'selected' : ''}`}
+                onClick={() => handleRatingChange(star)}
+              >
+                &#9733;
+              </span>
+            ))}
+          </div>
+          <button onClick={handleAddReview}>Submit Review</button>
         </div>
       </div>
     </div>

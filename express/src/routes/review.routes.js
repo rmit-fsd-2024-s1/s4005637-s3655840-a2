@@ -8,6 +8,9 @@ module.exports = (express, app) => {
   // Select reviews by productID
   router.get("/select/:productID", controller.findByProductID);
 
+  // Add new review
+  router.post("/", controller.create);
+
   // Add routes to server
   app.use("/api/reviews", router);
 };
