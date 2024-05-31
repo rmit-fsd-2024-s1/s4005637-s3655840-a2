@@ -15,7 +15,7 @@ module.exports = (express, app) => {
   router.post("/", controller.create);
 
   //update a user profile
-  router.put("/", controller.update);
+  //router.put("/", controller.update); <---- this code doesn't work "Error: Route.put() requires a callback function but got a [object Undefined]"
 
 
   // Add routes to server.
