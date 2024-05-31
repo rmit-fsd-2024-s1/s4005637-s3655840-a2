@@ -68,8 +68,11 @@ async function seedData() {
 
   if (count == 0) {
   //create user
+  const argon2 = require("argon2")
+ 
+  let hash = await argon2.hash("abc123", { type: argon2.argon2id });
   await db.user.bulkCreate([
-    { username: 'test1test', email: 'test1@email.com', password_hash: hash, }
+    { username: 'test1test', email: 'test1@email.com', password_hash: hash, },
   ]);
 }
 
