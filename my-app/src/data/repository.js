@@ -1,7 +1,5 @@
-import { request, gql } from "graphql-request";
 import axios from "axios";
 
-const GRAPH_QL_URL = "http://localhost:4000/graphql";
 const API_HOST = "http://localhost:4000";
 const USERS_KEY = "users";
 const USER_KEY = "user";
@@ -154,6 +152,24 @@ async function createUser(username) {
   return response.data;
 }
 // get profile - get user info from DB
+async function getItem(id) {
+  const response = await axios.get(API_HOST + `/api/specials/select/${id}`);
+
+  return response.data;
+}
+
+async function getReviews(id) {
+  const response = await axios.get(API_HOST + `/api/reviews/select/${id}`);
+
+  return response.data;
+}
+
+async function getProducts(sale) {
+  const response = await axios.get(API_HOST + `/api/specials/select1/${sale}`);
+
+  return response.data;
+}
+
 async function getUserProfile(username, email) {
   const response = await axios.get(API_HOST + "/api/users", username, email);
   return response.data;
@@ -168,6 +184,25 @@ async function deleteUser(username, email) {
   const response = await axios.delete(API_HOST + "/api/users/username", username, email);
   return response.data;
   
+}
+
+
+async function addReview(review) {
+  const response = await axios.post(API_HOST + "/api/reviews", review);
+
+  return response.data;
+}
+
+async function deleteReview(id) {
+  const response = await axios.delete(API_HOST + `/api/reviews/select/${id}`);
+
+  return response.data;
+}
+
+async function updateReview(updatedReview) {
+  const response = await axios.put(API_HOST + `/api/reviews/select/${updatedReview.id}`, updatedReview);
+
+  return response.data;
 }
 
 export { // export all the needed functions
@@ -186,7 +221,13 @@ export { // export all the needed functions
   getCart,
   deleteItem,
   createUser,
+  getItem,
+  getReviews,
   getUserProfile,
   updateProfile,
   deleteUser,
+  addReview,
+  deleteReview,
+  updateReview,
+  getProducts
 }

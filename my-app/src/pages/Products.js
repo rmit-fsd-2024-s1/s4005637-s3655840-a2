@@ -12,7 +12,7 @@ const imageMap = {
   "Humus-100.jpg": require('../images/Humus-100.jpg')
 };
 
-const Specials = () => {
+const Products = () => {
   const [specials, setSpecials] = useState([]); // set the list of specials
   const [isLoading, setIsLoading] = useState(true);
   const [ratings, setRatings] = useState({});
@@ -21,7 +21,7 @@ const Specials = () => {
   // Load specials
   useEffect(() => {
     async function loadSpecials() {
-      const currentSpecials = await getProducts(1);
+      const currentSpecials = await getProducts(0);
       setSpecials(currentSpecials);
       setIsLoading(false);
 
@@ -81,7 +81,7 @@ const Specials = () => {
   
   return (
     <div className="containerS">
-      <h1>Specials for the week!</h1>
+      <h1>Products</h1>
       <p>
         Healthy soils have strong levels of active carbon and diverse, active microbe populations. This results in good soil structure, strong nutrient availability and less disease.
         <br /><br />
@@ -115,4 +115,4 @@ const Specials = () => {
   );
 };
 
-export default Specials;
+export default Products;

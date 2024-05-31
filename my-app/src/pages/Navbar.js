@@ -36,6 +36,7 @@ const Navbar=()=> {
     return (
       <div class="navbar">
         <a href="/content">Home</a>
+        <a href="/products">Products</a>
         <a href="/specials">Specials</a>
     
         <ProfileMenu/> {/* Display profile and cart options if user is logged in, if not display signup and login options */}

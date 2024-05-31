@@ -12,10 +12,10 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 });
 
 // Include models.
-db.owner = require("./models/owner.js")(db, DataTypes);
 db.special = require("./models/special.js")(db, DataTypes);
 db.cart = require("./models/cart.js")(db, DataTypes);
 db.user = require("./models/user.js")(db, DataTypes);
+db.review = require("./models/review.js")(db, DataTypes);
 
 // Include a sync option with seed data logic included.
 db.sync = async () => {
@@ -29,37 +29,20 @@ db.sync = async () => {
 };
 
 async function seedData() {
-  let count = await db.owner.count();
-
   // Only seed data if necessary.
-  if(count == 0) {
-  // Create owners.
-  await db.owner.bulkCreate([
-    {
-      email: "matthew@rmit.edu.au", first_name: "Matthew", last_name: "Bolger", mobile: "0412 123 123",
-      street: "123 Fake Street", city: "Melbourne", state: "VIC", postcode: "3000"
-    },
-    { email: "shekhar@rmit.edu.au", first_name: "Shekhar", last_name: "Kalra" },
-    { email: "alice@rmit.edu.au", first_name: "Alice", last_name: "Evans" },
-    { email: "bob@rmit.edu.au", first_name: "Bob", last_name: "Alexander" },
-    { email: "william@rmit.edu.au", first_name: "William", last_name: "Owens" },
-    { email: "terra@rmit.edu.au", first_name: "Terra", last_name: "Rodgers" },
-    { email: "leon@rmit.edu.au", first_name: "Leon", last_name: "Boreanaz" },
-    { email: "cid@rmit.edu.au", first_name: "Cid", last_name: "Highwind" }
-  ]);
-}
-
-  count = await db.special.count();
+  let count = await db.special.count();
 
   if (count == 0) {
   // Create specials.
   await db.special.bulkCreate([
-    { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 0, image: "fishmax.jpg" },
-    { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 1, image: "fishplus.jpg" },
-    { title: 'Fish-Emulsion', description: 'Feeds soil microbes, improves moisture retention and nutrient availability.', price: 3099, objectID: 2, image: "fishemulsion.jpg" },
-    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 3, image: "folup.jpg" },
-    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 4, image: "fulvic.jpg" },
-    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 5, image: "soil.jpg" }
+    { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 1, image: "fishmax.jpg", sale: true },
+    { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 2, image: "fishplus.jpg", sale: true},
+    { title: 'Fish-Emulsion', description: 'Feeds soil microbes, improves moisture retention and nutrient availability.', price: 3099, objectID: 3, image: "fishemulsion.jpg", sale: true},
+    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 4, image: "folup.jpg", sale: true },
+    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 5, image: "fulvic.jpg", sale: true },
+    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 6, image: "soil.jpg", sale: true },
+    { title: 'Soil Activator', description: 'Boosts microbes, improves soil health, stimulates plant growth.', price: 1999, objectID: 7, image: "Soil-Activator.jpg", sale: false },
+    { title: 'Humus 100', description: 'High quality, highly soluble humic & fulvic acid powder.', price: 2999, objectID: 8, image: "Humus-100.jpg", sale: false }
   ]);  
   }
 
@@ -72,6 +55,19 @@ async function seedData() {
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
   await db.user.bulkCreate([
     { username: 'test1test', email: 'test1@email.com', password_hash: hash, },
+  ]);
+}
+
+  count = await db.review.count();
+
+  if (count == 0) {
+  //create user
+  await db.review.bulkCreate([
+    { author: 'Sam', body: 'Very happy with product, will buy again', rating: 4, productID: 1 },
+    { author: 'Alice', body: 'Really happy with this product', rating: 5, productID: 1 },
+    { author: 'Denis', body: 'Hope to buy again', rating: 3, productID: 1 },
+    { author: 'Matthew', body: 'Strong dislike this product, will not buy again', rating: 1, productID: 2 },
+    { author: 'Peter', body: "I've had better, but this was alright", rating: 2, productID: 3 },
   ]);
 }
 

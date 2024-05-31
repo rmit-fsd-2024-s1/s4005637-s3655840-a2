@@ -652,11 +652,6 @@ background-image: linear-gradient(to right, #253d17dc , rgb(255, 255, 255));
   background-color: #0056b3;
 }
 
-.contentS li {
-  position: relative;
-  padding-bottom: 70px; /* Adjust to fit button */
-}
-
 .contentS .product-info {
   display: flex;
   flex-direction: column;
@@ -669,4 +664,12 @@ background-image: linear-gradient(to right, #253d17dc , rgb(255, 255, 255));
 
 .contentS .product-info .buyButton {
   align-self: flex-end; /* Move the buy button to the right */
+}
+
+.review-count {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 5px;
+  color: #000000;
+  font-weight: bold;
 }

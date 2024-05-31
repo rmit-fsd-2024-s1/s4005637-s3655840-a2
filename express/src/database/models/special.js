@@ -19,6 +19,10 @@ module.exports = (db, DataTypes) =>
     image: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    sale: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     // Don't add the timestamp attributes (updatedAt, createdAt).
