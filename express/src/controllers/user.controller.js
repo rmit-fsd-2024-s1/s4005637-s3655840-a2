@@ -39,4 +39,15 @@ exports.create = async (req, res) => {
   });
 
   res.json(user);
+
+  //Update profile in database
+exports.update = async (req, res) => {
+  const user = await db.user.findAll({ where:{email: req.body.email, username: req.body.username}});
+  //updating profile fields
+  user.username = req.body.username;
+  user.email = req.body.email;
+
+  await user.save();
+  res.json(user);
+}
 }; 

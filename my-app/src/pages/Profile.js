@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, getLogin, removeUser, loginUser } from "../data/repository";
+import { updateUser, getLogin, removeUser, loginUser, getUserProfile, updateProfile } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 
 function Profile(props) { // allow user to change information about their account and update the localStorage
@@ -8,35 +8,58 @@ function Profile(props) { // allow user to change information about their accoun
   let [fields, setFields] = useState({ username: accountName, email: "", password: "", date: ""});
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+ 
 
+  // useEffect(() => {
+  //   const users = JSON.parse(localStorage.getItem("users")) || []; // find specific user information using account name
+  //   const user = users.find((u) => u.username === fields.username);
+  //   if (user) {
+  //     setFields((prevFields) => ({ ...prevFields, email: user.email, date: user.date }));
+  //   }
+  // }, [fields.username]);
+
+  // Load profile.
   useEffect(() => {
-    const users = JSON.parse(localStorage.getItem("users")) || []; // find specific user information using account name
-    const user = users.find((u) => u.username === fields.username);
-    if (user) {
-      setFields((prevFields) => ({ ...prevFields, email: user.email, date: user.date }));
+    async function loadProfile() {
+      const currentProfile = await getUserProfile(username);
+      
+      setFields(currentProfile) 
     }
-  }, [fields.username]);
+    loadProfile();
+  }, [username]);
 
-  const handleInputChange = (event) => { // handle changes to the input boxes
+  const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setFields((prevFields) => ({ ...prevFields, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const { username, email} = fields;
-
+    
     if (username.trim() === "" || email.trim() === "") { // check if both fields are not empty
       setErrorMessage("Username and Email are required."); // display error message if fields are empty
       return;
     }
 
+
+      //update user info in DB?
+    const userName = await updateProfile(username, email);
+    navigate("/content");
+    loginUser(userName);
+
     updateUser(accountName, username, email); // Change information in localStorage
     alert("Congrats! Your profile has been changed"); // display confirmation message that information has been changed
     window.location.reload();
+    
   };
+
+  
+
 
   const handleDelete = (event) => { // allow user to delete their account and remove the information from localStorage
     event.preventDefault();
