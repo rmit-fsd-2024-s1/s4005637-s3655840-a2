@@ -11,6 +11,12 @@ module.exports = (express, app) => {
   // Add new review
   router.post("/", controller.create);
 
+  // Delete review
+  router.delete("/select/:id", controller.delete);
+
+  // Update review
+  router.put("/select/:id", controller.update);
+
   // Add routes to server
   app.use("/api/reviews", router);
 };

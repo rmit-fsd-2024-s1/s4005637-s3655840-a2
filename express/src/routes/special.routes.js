@@ -6,7 +6,10 @@ module.exports = (express, app) => {
   router.get("/", controller.all);
 
   // Select a single special with id.
-  router.get("/select/:id", controller.one);
+  router.get("/select/:id", controller.one); // get rid of this maybe
+
+  // Select products or specials
+  router.get("/select1/:sale", controller.findBySale);
 
   // Add routes to server.
   app.use("/api/specials", router);

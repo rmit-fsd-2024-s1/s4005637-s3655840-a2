@@ -16,6 +16,7 @@ import Program1 from './programs/Program1';
 import Program2 from './programs/Program2';
 import Program3 from './programs/Program3'; // import all appropiate pages and functions
 import Reviews from './pages/Reviews';
+import Products from './pages/Products';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path="cart" element={<Cart/>}/>
           <Route path="confirm" element={<Confirm/>}/>
           <Route path="reviews/:id" element={<Reviews/>}/>
+          <Route path="products" element={<Products/>}/>
 
         </Routes>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getItem, getReviews, addReview } from '../data/repository'; // Assume these functions are defined in your repository
+import { getItem, getReviews, addReview, updateReview, deleteReview } from '../data/repository'; // Assume these functions are defined in your repository
 import { useParams } from 'react-router-dom';
 import '../Reviews.css';
 
@@ -9,7 +9,9 @@ const imageMap = {
   "fishemulsion.jpg": require('../images/fishemulsion.jpg'),
   "folup.jpg": require('../images/folupImage.jpg'),
   "fulvic.jpg": require('../images/fulvicImg.jpg'),
-  "soil.jpg": require('../images/soilImg.jpg')
+  "soil.jpg": require('../images/soilImg.jpg'),
+  "Soil-Activator.jpg": require('../images/Soil-Activator.jpg'),
+  "Humus-100.jpg": require('../images/Humus-100.jpg')
 };
 
 const Reviews = () => {
@@ -20,15 +22,18 @@ const Reviews = () => {
   const [newRating, setNewRating] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [editingReview, setEditingReview] = useState(null);
+  const [editReviewText, setEditReviewText] = useState('');
+  const [editReviewRating, setEditReviewRating] = useState(1);
+
+  const currentUser = JSON.parse(localStorage.getItem("login"));
 
   useEffect(() => {
     async function loadProductDetails() {
       try {
         const productDetails = await getItem(id);
-        console.log("Product ID:", productDetails.objectID);
         setProduct(productDetails);
         const productReviews = await getReviews(productDetails.objectID);
-        console.log("Product Reviews:", productReviews);
         setReviews(productReviews);
         setIsLoading(false);
       } catch (error) {
@@ -49,7 +54,7 @@ const Reviews = () => {
     
     if (newReview.trim() && newRating > 0) {
       const review = {
-        author: JSON.parse(localStorage.getItem("login")),
+        author: currentUser,
         body: newReview,
         rating: newRating,
         productID: product.objectID
@@ -58,15 +63,50 @@ const Reviews = () => {
       const updatedReviews = await getReviews(product.objectID);
       setReviews(updatedReviews);
       setNewReview('');
-      setNewRating(0);
+      setNewRating(1);
       setError('');
     } else {
-      setError('Review cannot be empty')
+      setError('Review cannot be empty');
+    }
+  };
+
+  const handleEditReview = async (reviewId) => {
+    if (editReviewText.trim() && editReviewRating > 0) {
+      const updatedReview = {
+        id: reviewId,
+        author: currentUser,
+        body: editReviewText,
+        rating: editReviewRating,
+        productID: product.objectID
+      };
+      await updateReview(updatedReview);
+      const updatedReviews = await getReviews(product.objectID);
+      setReviews(updatedReviews);
+      setEditingReview(null);
+    } else {
+      setError('Review cannot be empty');
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    const confirmation = window.confirm( // display confirmation message to confirm if user wants to delete their profile
+      "Are you sure you want to delete your review?"
+    );
+
+    if (confirmation) {
+    await deleteReview(reviewId);
+    const updatedReviews = await getReviews(product.objectID);
+    setReviews(updatedReviews);
+    alert("Your review has been deleted");
     }
   };
 
   const handleRatingChange = (rating) => {
     setNewRating(rating);
+  };
+
+  const handleEditRatingChange = (rating) => {
+    setEditReviewRating(rating);
   };
 
   if (isLoading) {
@@ -93,18 +133,52 @@ const Reviews = () => {
       <div className="reviews-section">
         <h2>Reviews</h2>
         <ul>
-        {console.log("Reviews:", reviews)}
-          {reviews.map(function (review) {
-            return (
+          {reviews.map((review) => (
             <li key={review.id} className="review">
-              <div className="review-header">
-                <span className="review-author">{review.author}</span>
-                <span className="review-rating">{review.rating} stars</span>
-              </div>
-              <p>{review.body}</p>
+              {editingReview === review.id ? (
+                <div>
+                  <textarea
+                    value={editReviewText}
+                    onChange={(e) => setEditReviewText(e.target.value)}
+                    placeholder="Edit your review here..."
+                  />
+                  <div className="rating-container">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span
+                        key={star}
+                        className={`star ${editReviewRating >= star ? 'selected' : ''}`}
+                        onClick={() => handleEditRatingChange(star)}
+                      >
+                        &#9733;
+                      </span>
+                    ))}
+                  </div>
+                  <div className="review-buttons">
+                  <button onClick={() => handleEditReview(review.id)}>Save</button>
+                  <button onClick={() => setEditingReview(null)}>Cancel</button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="review-header">
+                    <span className="review-author">{review.author}</span>
+                    <span className="review-rating">{review.rating} stars</span>
+                  </div>
+                  <p>{review.body}</p>
+                  {review.author === currentUser && (
+                    <div className="review-buttons">
+                      <button onClick={() => { 
+                        setEditingReview(review.id);
+                        setEditReviewText(review.body);
+                        setEditReviewRating(review.rating);
+                      }}>Edit</button>
+                      <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
+                    </div>
+                  )}
+                </div>
+              )}
             </li>
-            );
-        })}
+          ))}
         </ul>
         <div className="add-review">
           <textarea

@@ -1,7 +1,5 @@
-import { request, gql } from "graphql-request";
 import axios from "axios";
 
-const GRAPH_QL_URL = "http://localhost:4000/graphql";
 const API_HOST = "http://localhost:4000";
 const USERS_KEY = "users";
 const USER_KEY = "user";
@@ -166,6 +164,12 @@ async function getReviews(id) {
   return response.data;
 }
 
+async function getProducts(sale) {
+  const response = await axios.get(API_HOST + `/api/specials/select1/${sale}`);
+
+  return response.data;
+}
+
 async function saveUser(oldUser, newUser, email) {
   const response = await axios.put(API_HOST + "/api/users", oldUser, newUser, email);
   return response.data;
@@ -173,6 +177,18 @@ async function saveUser(oldUser, newUser, email) {
 
 async function addReview(review) {
   const response = await axios.post(API_HOST + "/api/reviews", review);
+
+  return response.data;
+}
+
+async function deleteReview(id) {
+  const response = await axios.delete(API_HOST + `/api/reviews/select/${id}`);
+
+  return response.data;
+}
+
+async function updateReview(updatedReview) {
+  const response = await axios.put(API_HOST + `/api/reviews/select/${updatedReview.id}`, updatedReview);
 
   return response.data;
 }
@@ -196,5 +212,8 @@ export { // export all the needed functions
   getItem,
   getReviews,
   saveUser,
-  addReview
+  addReview,
+  deleteReview,
+  updateReview,
+  getProducts
 }

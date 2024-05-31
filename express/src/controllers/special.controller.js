@@ -19,3 +19,9 @@ exports.one = async (req, res) => {
 
   res.json(special);
 };
+
+exports.findBySale = async (req, res) => {
+  const { sale } = req.params;
+  const special = await db.special.findAll({ where: { sale } });
+  res.json(special);
+};

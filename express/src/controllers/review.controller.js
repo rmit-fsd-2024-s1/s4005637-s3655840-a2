@@ -22,3 +22,27 @@ exports.create = async (req, res) => {
 
   res.json(review);
 };
+
+exports.delete = async (req, res) => {
+  const review = await db.review.findByPk(req.params.id);
+
+  await review.destroy();
+
+  res.json(review);
+};
+
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  const { body, rating } = req.body;
+
+  const review = await db.review.findByPk(id);
+
+  // Update the review fields
+  review.body = body;
+  review.rating = rating;
+
+  // Save the updated review
+  await review.save();
+
+  res.json(review);
+};

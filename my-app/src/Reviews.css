@@ -157,3 +157,29 @@
 .star.selected {
     color: #ffd900;
 }
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-buttons {
+    display: flex;
+    justify-content: flex-end; 
+}
+
+.review-buttons button {
+    margin-left: 10px; 
+    padding: 8px 16px;
+    background-color: #2a6314;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-buttons button:hover {
+    background-color: #1f4d0e;
+}
