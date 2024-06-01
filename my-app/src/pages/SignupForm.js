@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser, loginUser, createUser } from "../data/repository";
+import { addUser, loginUser, createUser, getUserProfile } from "../data/repository";
 
 function isValidEmail(email) { // check if the email is a valid email
   // Check if the email contains "@" symbol
@@ -96,6 +96,20 @@ function SignupForm(props) { // Component to allow user to create a new account
     navigate("/content"); // navigate to homepage
     window.location.reload(); // reload page so website and localStorage are updated
   };
+
+  const handleValidation = async () => {
+    const Tfields = trimfields();
+    const currentErrors = { };
+
+    let key = "username";
+    let fields = Tfields[key];
+    if(fields.length === 0)
+      setErrorMessage("Input info")
+    else if(await getUserProfile(fields.username) !== null)
+      setErrorMessage("Username already registered.")
+
+  }
+
 
   return (
     <div className="cont">

@@ -170,18 +170,18 @@ async function getProducts(sale) {
   return response.data;
 }
 
-async function getUserProfile(username, email) {
-  const response = await axios.get(API_HOST + "/api/users", username, email);
+async function getUserProfile(username) {
+  const response = await axios.get(API_HOST + `/api/users/select/${username}`);
   return response.data;
 }
 //update user info from db
-async function updateProfile(username, email) {
-  const response = await axios.put(API_HOST + "/api/users", username, email);
+async function updateProfile(username) {
+  const response = await axios.put(API_HOST + `/api/users/select/${username}`);
   return response.data;
 }
 //delete user form DB
-async function deleteUser(username, email) {
-  const response = await axios.delete(API_HOST + "/api/users/username", username, email);
+async function deleteUser(username) {
+  const response = await axios.delete(API_HOST + `/api/users/select/${username}`);
   return response.data;
   
 }

@@ -2,11 +2,11 @@ module.exports = (db, DataTypes) =>
     db.sequelize.define("user", {
       username: {
         type: DataTypes.STRING(32),
-        primaryKey: true
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING(254),
-        allowNull: false
+        primaryKey: true
       },
       password_hash: {
         type: DataTypes.STRING(200),
