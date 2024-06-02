@@ -8,7 +8,9 @@ const imageMap = {
     "fishemulsion.jpg": require('../images/fishemulsion.jpg'),
     "folup.jpg": require('../images/folupImage.jpg'),
     "fulvic.jpg": require('../images/fulvicImg.jpg'),
-    "soil.jpg": require('../images/soilImg.jpg')
+    "soil.jpg": require('../images/soilImg.jpg'),
+    "Soil-Activator.jpg": require('../images/Soil-Activator.jpg'),
+    "Humus-100.jpg": require('../images/Humus-100.jpg')
   };
 
 const Cart = () => {
