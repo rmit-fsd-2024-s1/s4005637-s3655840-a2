@@ -38,9 +38,9 @@ async function seedData() {
     { title: 'Fish-Max', description: 'Rich source of natural nutrients and amino acids, improves soil and plant health.', price: 999, objectID: 1, image: "fishmax.jpg", sale: true },
     { title: 'Fish-Plus', description: 'Improves soil health, suppresses disease, and enhances nutrient availability.', price: 1599, objectID: 2, image: "fishplus.jpg", sale: true},
     { title: 'Fish-Emulsion', description: 'Feeds soil microbes, improves moisture retention and nutrient availability.', price: 3099, objectID: 3, image: "fishemulsion.jpg", sale: true},
-    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 4, image: "folup.jpg", sale: true },
-    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 5, image: "fulvic.jpg", sale: true },
-    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 6, image: "soil.jpg", sale: true },
+    { title: 'Fol-Up', description: 'Contains fulvic acid for use as a foliar fertiliser, improves nutrient uptake.', price: 599, objectID: 4, image: "folup.jpg", sale: false },
+    { title: 'Fulvic Acid Power', description: 'Enhances uptake of minerals and nutrients by plants.', price: 1699, objectID: 5, image: "fulvic.jpg", sale: false },
+    { title: 'Soil Enhancer', description: 'Contains humus, seaweed extracts, amino acids, and vitamins.', price: 2499, objectID: 6, image: "soil.jpg", sale: false },
     { title: 'Soil Activator', description: 'Boosts microbes, improves soil health, stimulates plant growth.', price: 1999, objectID: 7, image: "Soil-Activator.jpg", sale: false },
     { title: 'Humus 100', description: 'High quality, highly soluble humic & fulvic acid powder.', price: 2999, objectID: 8, image: "Humus-100.jpg", sale: false }
   ]);  
@@ -68,6 +68,8 @@ async function seedData() {
     { author: 'Denis', body: 'Hope to buy again', rating: 3, productID: 1 },
     { author: 'Matthew', body: 'Strong dislike this product, will not buy again', rating: 1, productID: 2 },
     { author: 'Peter', body: "I've had better, but this was alright", rating: 2, productID: 3 },
+    { author: 'Peter', body: "My overall favourite product", rating: 5, productID: 4 },
+    { author: 'Sam', body: "I will definitely buy again, very good product", rating: 4, productID: 4 },
   ]);
 }
 

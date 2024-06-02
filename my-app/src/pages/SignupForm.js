@@ -25,7 +25,6 @@ function isValidEmail(email) { // check if the email is a valid email
 }
 
 function isStrongPassword(password) { // check if the password is a strong password
-
   if (password.length < 8) { // password must be greater than 8 characters
     return "Flength";
   }
@@ -33,7 +32,6 @@ function isStrongPassword(password) { // check if the password is a strong passw
   let j = 0
 
   for (let i = 0; i < password.length; i++) { // password must contain at least one numeral
-  
     if (!isNaN(parseInt(password[i]))) {
       j++;
     }
@@ -46,7 +44,7 @@ function isStrongPassword(password) { // check if the password is a strong passw
 }
 
 function SignupForm(props) { // Component to allow user to create a new account
-  const [fields, setFields] = useState({ username: "", email: "", password: ""});
+  const [fields, setFields] = useState({ username: "", email: "", password: "", confirmPassword: "" });
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
@@ -58,10 +56,10 @@ function SignupForm(props) { // Component to allow user to create a new account
     setFields(temp);
   };
 
-  const handleSubmit = async (event) => { //added async
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const { username, email, password } = fields;
+
+    const { username, email, password, confirmPassword } = fields;
 
     if (!isValidEmail(email)) { // if email not valid display appropriate error message
       setErrorMessage("Please enter a valid Email address")
@@ -77,16 +75,21 @@ function SignupForm(props) { // Component to allow user to create a new account
       setErrorMessage("Password length must be greater than 8");
       return;
     }
-      
-    if (username.trim() === "" || password.trim() === "" || email.trim() === "") { // if any input boxes are empty return error message
-      setErrorMessage("Username, Email and password are required.");
+
+    if (username.trim() === "" || password.trim() === "" || email.trim() === "") {
+      setErrorMessage("Username, Email, and password are required.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match.");
       return;
     }
     const date = new Date().toISOString().split('T')[0]; // record date of account creation
-    
+
     const userFields = { ...fields, date }; // Include the date in the fields
     const user = await createUser(userFields); // create user to DB
-    
+
     navigate("/content");
     loginUser(user);
 
@@ -108,7 +111,7 @@ function SignupForm(props) { // Component to allow user to create a new account
             id="username"
             value={fields.username}
             onChange={handleInputChange}
-          ></input>
+          />
         </div>
         <div className="form-1">
           <label htmlFor="email">Email</label>
@@ -131,7 +134,17 @@ function SignupForm(props) { // Component to allow user to create a new account
           />
         </div>
         <div className="form-1">
-          <input type="submit" className="btn btn-success" value="Signup"></input>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            value={fields.confirmPassword}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-1">
+          <input type="submit" className="btn btn-success" value="Signup" />
         </div>
         {errorMessage !== null && (
           <div className="form-1">
