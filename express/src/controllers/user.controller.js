@@ -10,8 +10,8 @@ exports.all = async (req, res) => {
 
 // Select one user from the database.
 exports.one = async (req, res) => {
-  const user = await db.user.findByPk(req.params.id);
-
+  const { username } = req.params;
+  const user = await db.user.findOne({ where: { username } });
   res.json(user);
 };
 
@@ -34,11 +34,11 @@ exports.create = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password_hash: hash,
-    // first_name: req.body.firstname,
-    // last_name: req.body.lastname
+    date: req.body.date
   });
 
   res.json(user);
+};
 
   //Update profile in database
 exports.update = async (req, res) => {
@@ -49,5 +49,10 @@ exports.update = async (req, res) => {
 
   await user.save();
   res.json(user);
-}
-}; 
+};
+
+exports.get = async (req, res) => {
+  const { username } = req.params;
+  const user = await db.user.findAll({ where: { username } });
+  res.json(user);
+};

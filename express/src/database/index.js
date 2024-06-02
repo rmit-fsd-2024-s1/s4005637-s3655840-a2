@@ -54,7 +54,7 @@ async function seedData() {
  
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
   await db.user.bulkCreate([
-    { username: 'test1test', email: 'test1@email.com', password_hash: hash, },
+    { username: 'test1test', email: 'test1@email.com', password_hash: hash, date: "1970-01-01" },
   ]);
 }
 

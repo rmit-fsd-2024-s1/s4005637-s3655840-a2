@@ -1,40 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUsername, loginUser } from "../data/repository";
+import { verifyUser, loginUser } from "../data/repository";
 
-function LoginForm(props) { // Signin component to log in user
-  const [fields, setFields] = useState({ username: "", email: "", password: "" });
+function LoginForm(props) { 
+  const [fields, setFields] = useState({ username: "", password: "" });
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
-  const handleInputChange = (event) => { // Handle input change in the input boxes
-    const name = event.target.name;
-    const value = event.target.value;
-    const temp = { ...fields };
-    temp[name] = value;
-    setFields(temp);
+  const handleInputChange = (event) => { 
+    setFields({ ...fields, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-      (u) => u.email === fields.email && u.password === fields.password // search for existing user in localStorage
-    );
 
-    if (user) {
-      // User found, navigate to "/"
-      // Login user and store in localStorage which user is logged in
-      loginUser(getUsername(fields.email));
-      // Display confirmation message that user is logged in
-      alert("Welcome back " + getUsername(fields.email) + "! You are now logged in")
-      
-      navigate("/content"); // Navigate to homepage
-      window.location.reload(); // Reload page so localStorage is updated and user is logged in
-    } else {
-      // User not found, display error message
-      setErrorMessage("email and/or password invalid, please try again.");
+    const user = await verifyUser(fields.username, fields.password);
+
+    if (user === null) {
+      // Login failed, reset password field to blank and set error message.
+      setFields({ ...fields, password: "" });
+      setErrorMessage("Username and/or password invalid, please try again.");
+      return;
     }
+
+    // Set user state.
+    loginUser(fields.username);
+
+    // Display confirmation message that user is logged in
+    alert(`Welcome back ${user.username}! You are now logged in`);
+      
+    // Navigate to the content page.
+    navigate("/content");
+    window.location.reload()
   };
 
   return (
@@ -42,11 +39,11 @@ function LoginForm(props) { // Signin component to log in user
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-1">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="username">Username</label>
           <input
-            name="email"
-            id="email"
-            value={fields.email}
+            name="username"
+            id="username"
+            value={fields.username}
             onChange={handleInputChange}
           ></input>
         </div>

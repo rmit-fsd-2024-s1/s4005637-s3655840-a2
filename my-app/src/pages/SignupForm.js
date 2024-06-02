@@ -61,16 +61,16 @@ function SignupForm(props) { // Component to allow user to create a new account
   const handleSubmit = async (event) => { //added async
     event.preventDefault();
     
-    const { username, email, password} = fields;
+    const { username, email, password } = fields;
 
-    if (!isValidEmail(email)) { // if email not valid display appropiate error message
+    if (!isValidEmail(email)) { // if email not valid display appropriate error message
       setErrorMessage("Please enter a valid Email address")
       return
     }
 
     let passwordTest = isStrongPassword(password) // check for strong password
 
-    if (passwordTest === "Fnumeral") { // if password isn't strong enough display appropiate error message
+    if (passwordTest === "Fnumeral") { // if password isn't strong enough display appropriate error message
       setErrorMessage("Password must contain at least one numeral");
       return;
     } else if (passwordTest === "Flength") {
@@ -84,15 +84,11 @@ function SignupForm(props) { // Component to allow user to create a new account
     }
     const date = new Date().toISOString().split('T')[0]; // record date of account creation
     
-    const user = await createUser(fields); //create user to DB?
-    // const { fields, isValid } = await handleValidation();
-    // if(!isValid)
-    //   return;
+    const userFields = { ...fields, date }; // Include the date in the fields
+    const user = await createUser(userFields); // create user to DB
     
     navigate("/content");
     loginUser(user);
-    
-    addUser(username, email, password, date); // add all information to localStorage
 
     alert("Congrats! Your account: " + username + " has been created") // display confirmation message once account is created
 
@@ -100,20 +96,6 @@ function SignupForm(props) { // Component to allow user to create a new account
     navigate("/content"); // navigate to homepage
     window.location.reload(); // reload page so website and localStorage are updated
   };
-
-  // const handleValidation = async () => {
-  //   const Tfields = trimfields();
-  //   const currentErrors = { };
-
-  //   let key = "username";
-  //   let fields = Tfields[key];
-  //   if(fields.length === 0)
-  //     setErrorMessage("Input info")
-  //   else if(await getUserProfile(fields.username) !== null)
-  //     setErrorMessage("Username already registered.")
-
-  // }
-
 
   return (
     <div className="cont">

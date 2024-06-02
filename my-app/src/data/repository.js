@@ -6,39 +6,13 @@ const USER_KEY = "user";
 const LOGIN_STATE = "login";
 const CART = "cart";
 
-function initUsers() { // initialise default users 
-  if (localStorage.getItem(USERS_KEY) !== null)
+function initLogin() { 
+  if (localStorage.getItem(LOGIN_STATE) !== null)
     return;
-
-  const users = [
-    {
-      username: "elijah",
-      email: "elijah@soil.com",
-      password: "abc123",
-      date: "1970-01-01"
-    },
-    {
-      username: "thomas",
-      email: "thomas@soil.com",
-      password: "def456",
-      date: "1970-01-01"
-    }
-  ];
-
+  
   let login = "false"; // set login state to "false"
 
   localStorage.setItem(LOGIN_STATE, JSON.stringify(login));
-  localStorage.setItem(USERS_KEY, JSON.stringify(users)); // store login and default user information into localStorage
-}
-
-function initCart() { // initialise cart
-  if (localStorage.getItem(CART) !== null)
-    return;
-
-  const cart = [
-  ];
-
-  localStorage.setItem(CART, JSON.stringify(cart)); // store cart in localStorage
 }
 
 function getUsers() { // Get user information from localStorage
@@ -49,17 +23,15 @@ function getUsers() { // Get user information from localStorage
   return JSON.parse(data);
 }
 
-function verifyUser(username, password) { // Verify if user exists in localStorage
-  const users = getUsers();
-  console.log(users);
-  for (const user of users) {
-    if (username === user.username && password === user.password) {
-      setUser(username);
-      return true;
-    }
-  }
+async function verifyUser(username, password) {
+  const response = await axios.get(API_HOST + "/api/users/login", { params: { username, password } });
+  const user = response.data;
+  
+  
+  if(user !== null)
+    loginUser(user);
 
-  return false;
+  return user;
 }
 
 function setUser(username) {
@@ -91,11 +63,7 @@ function addUser(username, email, password, date) { // Add new user to localStor
 }
 
 function loginUser(username) { // change login state
-  let login = getLogin();
-
-  login = username;
-
-  localStorage.setItem(LOGIN_STATE, JSON.stringify(login));
+  localStorage.setItem(LOGIN_STATE, JSON.stringify(username));
 }
 
 function updateUser(oldUser, newUser, email) { // change user information in localStorage
@@ -186,7 +154,6 @@ async function deleteUser(username) {
   
 }
 
-
 async function addReview(review) {
   const response = await axios.post(API_HOST + "/api/reviews", review);
 
@@ -206,8 +173,7 @@ async function updateReview(updatedReview) {
 }
 
 export { // export all the needed functions
-  initUsers,
-  initCart,
+  initLogin,
   verifyUser,
   updateCart,
   getUser,

@@ -74,7 +74,7 @@ const Products = () => {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading specials...</p>
+        <p>Loading products...</p>
       </div>
     );
   }

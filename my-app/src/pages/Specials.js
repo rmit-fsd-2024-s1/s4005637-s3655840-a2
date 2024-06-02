@@ -82,11 +82,6 @@ const Specials = () => {
   return (
     <div className="containerS">
       <h1>Specials for the week!</h1>
-      <p>
-        Healthy soils have strong levels of active carbon and diverse, active microbe populations. This results in good soil structure, strong nutrient availability and less disease.
-        <br /><br />
-        Active carbon is an important component of good soil structure and leads to better root growth, water penetration and retention. A healthy beneficial microbe population allows nutrients to remain available to plants for longer and reduces the incidence and severity of disease.
-      </p>
       <div className="contentS">
         <ul>
           {specials.map((special) => {

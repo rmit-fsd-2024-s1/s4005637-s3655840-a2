@@ -9,7 +9,7 @@ import Cart from './pages/Cart';
 import Confirm from './pages/Confirm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginForm from './pages/LoginForm';
-import { initCart, initUsers } from './data/repository';
+import { initCart, initLogin, initUsers } from './data/repository';
 import SignupForm from './pages/SignupForm';
 import Profile from './pages/Profile';
 import Program1 from './programs/Program1';
@@ -20,9 +20,8 @@ import Products from './pages/Products';
 
 
 function App() {
-    
-    initUsers();
-    initCart();
+
+  initLogin();
 
   return (
     <div>
