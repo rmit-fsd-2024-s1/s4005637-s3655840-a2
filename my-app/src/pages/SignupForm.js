@@ -85,6 +85,10 @@ function SignupForm(props) { // Component to allow user to create a new account
     const date = new Date().toISOString().split('T')[0]; // record date of account creation
     
     const user = await createUser(fields); //create user to DB?
+    // const { fields, isValid } = await handleValidation();
+    // if(!isValid)
+    //   return;
+    
     navigate("/content");
     loginUser(user);
     
@@ -97,18 +101,18 @@ function SignupForm(props) { // Component to allow user to create a new account
     window.location.reload(); // reload page so website and localStorage are updated
   };
 
-  const handleValidation = async () => {
-    const Tfields = trimfields();
-    const currentErrors = { };
+  // const handleValidation = async () => {
+  //   const Tfields = trimfields();
+  //   const currentErrors = { };
 
-    let key = "username";
-    let fields = Tfields[key];
-    if(fields.length === 0)
-      setErrorMessage("Input info")
-    else if(await getUserProfile(fields.username) !== null)
-      setErrorMessage("Username already registered.")
+  //   let key = "username";
+  //   let fields = Tfields[key];
+  //   if(fields.length === 0)
+  //     setErrorMessage("Input info")
+  //   else if(await getUserProfile(fields.username) !== null)
+  //     setErrorMessage("Username already registered.")
 
-  }
+  // }
 
 
   return (
