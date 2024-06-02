@@ -115,6 +115,12 @@ async function deleteItem(id) {
   return response.data;
 }
 
+//delete user form DB
+async function deleteUser(username) {
+  const response = await axios.delete(API_HOST + `/api/users/select1/${username}`);
+  return response.data;
+}
+
 async function createUser(username) {
   const response = await axios.post(API_HOST + "/api/users", username); //username of fields?
   return response.data;
@@ -143,15 +149,9 @@ async function getUserProfile(username) {
   return response.data;
 }
 //update user info from db
-async function updateProfile(username) {
-  const response = await axios.put(API_HOST + `/api/users/select/${username}`);
+async function updateProfile(username, email) {
+  const response = await axios.put(API_HOST + `/api/users/select/${username}`, { email });
   return response.data;
-}
-//delete user form DB
-async function deleteUser(username) {
-  const response = await axios.delete(API_HOST + `/api/users/select/${username}`);
-  return response.data;
-  
 }
 
 async function addReview(review) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, getLogin, removeUser, loginUser, getUserProfile, updateProfile } from "../data/repository";
+import { updateUser, getLogin, removeUser, loginUser, getUserProfile, updateProfile, deleteUser } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 
 function Profile(props) {
@@ -32,17 +32,18 @@ function Profile(props) {
       setErrorMessage("Username and Email are required."); // display error message if fields are empty
       return;
     }
-
+    let name = getLogin();
+    console.log("name: ", name);
+    name = name.replace(/["']/g, "");
     // Update user info in DB
-    const updatedProfile = await updateProfile(username, email);
+    const updatedProfile = await updateProfile(name, email);
     navigate("/content");
     loginUser(updatedProfile.username);
-    updateUser(accountName, updatedProfile.username, updatedProfile.email); // Change information in localStorage
     alert("Congrats! Your profile has been changed"); // display confirmation message that information has been changed
     window.location.reload();
   };
 
-  const handleDelete = (event) => { // allow user to delete their account and remove the information from localStorage
+  const handleDelete = async (event) => { // allow user to delete their account and remove the information from localStorage
     event.preventDefault();
 
     const confirmation = window.confirm( // display confirmation message to confirm if user wants to delete their profile
@@ -51,7 +52,8 @@ function Profile(props) {
 
     if (confirmation) { // display confirmation message that account has been deleted, log user out of their account and return to homepage
       alert("Your account: " + accountName + " has been deleted");
-      removeUser(accountName);
+      console.log("Name 2: ", accountName);
+      await deleteUser(accountName);
       loginUser("false");
       navigate("/content");
       window.location.reload();
