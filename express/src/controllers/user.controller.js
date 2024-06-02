@@ -17,7 +17,8 @@ exports.one = async (req, res) => {
 
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
-  const user = await db.user.findByPk(req.query.username);
+  const { username } = req.query;
+  const user = await db.user.findOne({ where: { username } });
 
   if(user === null || await argon2.verify(user.password_hash, req.query.password) === false)
     // Login failed.
