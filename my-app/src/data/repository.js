@@ -66,20 +66,6 @@ function loginUser(username) { // change login state
   localStorage.setItem(LOGIN_STATE, JSON.stringify(username));
 }
 
-function updateUser(oldUser, newUser, email) { // change user information in localStorage
-  const users = getUsers();
-
-  const index = users.findIndex((user) => user.username === oldUser); // Find specific user with old name
-
-  if (index !== -1) { // update the old name and email with new name and email
-    users[index].username = newUser;
-    users[index].email = email;
-
-    localStorage.setItem(USERS_KEY, JSON.stringify(users)); // save the updated list to localStorage
-    loginUser(newUser); // sign in user with updated name
-  }
-}
-
 function getUsername(email) { // find user name using specific email from that entry
   const users = getUsers();
 
@@ -149,8 +135,8 @@ async function getUserProfile(username) {
   return response.data;
 }
 //update user info from db
-async function updateProfile(username, email) {
-  const response = await axios.put(API_HOST + `/api/users/select/${username}`, { email });
+async function updateProfile(oldusername, newusername, email) {
+  const response = await axios.put(API_HOST + `/api/users/select2/${oldusername}`, { newusername, email }); 
   return response.data;
 }
 
@@ -181,7 +167,6 @@ export { // export all the needed functions
   addUser,
   loginUser,
   getLogin,
-  updateUser,
   getUsername,
   getSpecials,
   getCart,

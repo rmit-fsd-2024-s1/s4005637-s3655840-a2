@@ -40,22 +40,28 @@ exports.create = async (req, res) => {
   res.json(user);
 };
 
-//Update profile in database
+// Update profile in database
 exports.update = async (req, res) => {
   const { username } = req.params;
-  const { email } = req.body;
-
+  const { newusername, email } = req.body;
+  
+  // Find the user by username
   const user = await db.user.findOne({ where: { username } });
   
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
 
+  // Update username and email
+  user.username = newusername;
   user.email = email;
+  
+  // Save changes to the database
   await user.save();
 
   res.json(user);
 };
+
 
 exports.get = async (req, res) => {
   const { username } = req.params;

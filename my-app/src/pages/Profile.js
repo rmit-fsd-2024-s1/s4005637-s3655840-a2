@@ -33,10 +33,11 @@ function Profile(props) {
       return;
     }
     let name = getLogin();
-    console.log("name: ", name);
     name = name.replace(/["']/g, "");
     // Update user info in DB
-    const updatedProfile = await updateProfile(name, email);
+    console.log("name: ", name);
+    console.log("new name: ", username);
+    const updatedProfile = await updateProfile(name, username, email);
     navigate("/content");
     loginUser(updatedProfile.username);
     alert("Congrats! Your profile has been changed"); // display confirmation message that information has been changed
